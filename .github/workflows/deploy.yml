@@ -32,26 +32,8 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Install dependencies
         run: npm ci
-      - name: Check EmailJS deployment secrets
-        env:
-          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
-          VITE_EMAILJS_WELCOME_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_WELCOME_TEMPLATE_ID }}
-          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
-        run: |
-          for name in VITE_EMAILJS_SERVICE_ID VITE_EMAILJS_TEMPLATE_ID VITE_EMAILJS_WELCOME_TEMPLATE_ID VITE_EMAILJS_PUBLIC_KEY; do
-            if [ -z "${!name}" ]; then
-              echo "::error::Missing GitHub Actions secret: $name"
-              exit 1
-            fi
-          done
       - name: Build
         run: npm run build
-        env:
-          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
-          VITE_EMAILJS_WELCOME_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_WELCOME_TEMPLATE_ID }}
-          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
